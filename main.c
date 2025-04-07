@@ -1,5 +1,6 @@
-#include<stdio.h>
-#include "heap.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include "libs/heap.h"
 
 int main() {
     Heap* heap = heap_create(100, MAX_HEAP);

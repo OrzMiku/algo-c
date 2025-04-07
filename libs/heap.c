@@ -1,35 +1,13 @@
-#ifndef HEAP
-#define HEAP
-#include<stdlib.h>
-#include<stdbool.h>
-#include<assert.h>
+#include "heap.h"
+#include <stdlib.h>
+#include <assert.h>
 
-typedef enum {
-    MIN_HEAP,
-    MAX_HEAP
-} HeapType;
-
-typedef struct {
+struct Heap {
     int *data;
     size_t size;
     size_t capacity;
     HeapType type;
-} Heap;
-
-Heap* heap_create(size_t capacity, HeapType type);
-void heap_destroy(Heap *heap);
-bool heap_push(Heap *heap, int value);
-int heap_pop(Heap *heap);
-bool heap_is_empty(const Heap *heap);
-int heap_peek(const Heap *heap);
-void heap_shiftup(Heap *heap, size_t index);
-void heap_shiftdown(Heap *heap, size_t index);
-bool should_swap(Heap *heap, int a, int b);
-size_t heap_left_index(size_t index);
-size_t heap_right_index(size_t index);
-size_t heap_parent_index(size_t index);
-
-static void swap(int *a, int *b);
+};
 
 Heap* heap_create(size_t capacity, HeapType type) {
     Heap *heap = (Heap*)malloc(sizeof(Heap));
@@ -88,7 +66,7 @@ int heap_peek(const Heap *heap) {
     return heap->data[0];
 }
 
-void heap_shiftup(Heap *heap, size_t index) {
+static void heap_shiftup(Heap *heap, size_t index) {
     if(index == 0) return;
     
     size_t parent_index  = heap_parent_index(index);
@@ -99,7 +77,7 @@ void heap_shiftup(Heap *heap, size_t index) {
     }
 }
 
-void heap_shiftdown(Heap *heap, size_t index) {
+static void heap_shiftdown(Heap *heap, size_t index) {
     size_t left_child_index = heap_left_index(index);
     size_t right_child_index = heap_right_index(index);
     size_t selected = index;
@@ -120,19 +98,19 @@ void heap_shiftdown(Heap *heap, size_t index) {
     }
 }
 
-size_t heap_left_index(size_t index) {
+static size_t heap_left_index(size_t index) {
     return 2 * index + 1;
 }
 
-size_t heap_right_index(size_t index) {
+static size_t heap_right_index(size_t index) {
     return 2 * (index + 1);
 }
 
-size_t heap_parent_index(size_t index) {
+static size_t heap_parent_index(size_t index) {
     return (index - 1) / 2;
 }
 
-bool should_swap(Heap *heap, int a, int b) {
+static bool should_swap(Heap *heap, int a, int b) {
     return heap->type == MAX_HEAP
         ? a > b
         : a < b;
@@ -143,4 +121,3 @@ static void swap(int *a, int *b) {
     *a = *b;
     *b = t;
 }
-#endif
