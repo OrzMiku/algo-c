@@ -1,5 +1,5 @@
-#ifndef HEAP
-#define HEAP
+#ifndef HEAP_H
+#define HEAP_H
 #include <stdbool.h>
 #include <stddef.h>
 
@@ -24,4 +24,5 @@ static size_t heap_left_index(size_t index);
 static size_t heap_right_index(size_t index);
 static size_t heap_parent_index(size_t index);
 static void swap(int *a, int *b);
-#endif
+
+#endif // HEAP_H
